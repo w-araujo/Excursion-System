@@ -12,3 +12,92 @@ datasource db {
   provider = "postgresql"
   url      = env("DB_URL_PRISMA")
 }
+
+model Traveler {
+  id              Int              @id @default(autoincrement())
+  name            String 
+  email           String           @unique
+  cpf             String           @unique
+  password        String   
+  phone           String
+  birthdate       DateTime
+  role            Role             @default(TRAVELER)
+  address         Address          @relation(fields: [addressId], references: [id])
+  addressId       Int              @unique              
+  company         Company?         @relation(fields: [companyId], references: [id])
+  companyId       Int              @unique
+  travelHistory   TravelHistory[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Address {
+   id              Int              @id @default(autoincrement())
+   street          String
+   city            String
+   state           String
+   zipCode         String
+   traveler        Traveler?
+}
+model Company {
+  id              Int         @id @default(autoincrement())
+  name            String      
+  cnpj            String?
+  email           String
+  image           String?
+  phone           String
+  description     String
+  traveler        Traveler?
+  event           Event[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Event {
+  id                 Int                @id @default(autoincrement())
+  title              String
+  description        String
+  image              String
+  from               String
+  to                 String
+  initialDate        DateTime
+  finalDate          DateTime
+  value              Decimal
+  vacancies          Int
+  isVacanciesFilled  Boolean            @default(false)
+  isFinished         Boolean            @default(false)
+  isDeleted          Boolean            @default(false)
+  company            Company            @relation(fields: [companyId], references: [id])
+  companyId          Int
+  travelHistory      TravelHistory[]
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+model PaymentOrder {
+  id                 Int               @id @default(autoincrement())
+  totalValue         Decimal
+  isPaid             Boolean           @default(false)
+  travelHistory      TravelHistory[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+}
+
+model TravelHistory {
+    id                    Int             @id @default(autoincrement())
+    amountPeople          Int
+    associatedTravelers   Json?
+    traveler              Traveler        @relation(fields: [travelerId], references: [id])
+    travelerId            Int
+    event                 Event           @relation(fields: [eventId], references: [id])
+    eventId               Int
+    paymentOrder          PaymentOrder    @relation(fields: [paymentOrderId], references: [id])
+    paymentOrderId        Int
+    createdAt             DateTime        @default(now())
+    updatedAt             DateTime        @updatedAt
+}
+
+enum Role {
+  TRAVELER
+  BUSSINESS
+}
