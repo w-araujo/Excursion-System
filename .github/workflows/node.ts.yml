@@ -1,4 +1,4 @@
-name: Run unit tests on pull request
+name: Run Tests on PR
 
 on:
   pull_request:
@@ -7,41 +7,25 @@ on:
 
 jobs:
   test:
-    name: Run unit tests
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "21"
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build TypeScript
+      - name: Run build
         run: npm run build
 
-      - name: Run unit tests
+      - name: Run Jest tests
         run: npm test
 
-      - name: Check test status
-        id: test_status
-        run: echo "::set-output name=status::${{ job.status }}"
-
-  merge:
-    needs: test
-    name: Merge pull request
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' && needs.test.outputs.test_status == 'success' }}
-
-    steps:
-      - name: Merge pull request
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-          git checkout ${{ github.event.pull_request.base.ref }}
-          git merge --no-ff --no-edit ${{ github.event.pull_request.head.ref }}
-          git push origin ${{ github.event.pull_request.base.ref }}
+      - name: Finish PR if tests pass
+        if: ${{ success() }}
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: merge
