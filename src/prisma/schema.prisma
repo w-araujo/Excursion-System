@@ -25,7 +25,7 @@ model Traveler {
   address         Address          @relation(fields: [addressId], references: [id])
   addressId       Int              @unique              
   company         Company?         @relation(fields: [companyId], references: [id])
-  companyId       Int              @unique
+  companyId       Int?             @unique
   travelHistory   TravelHistory[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt

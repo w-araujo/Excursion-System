@@ -8,6 +8,8 @@
     "start": "node dist/server.js",
     "dev": "ts-node-dev src/server.ts",
     "debug": "ts-node-dev --inspect=9229 --transpile-only ./src/server.ts",
+    "prisma:migrate": "npx prisma migrate dev --schema=./src/prisma/schema.prisma",
+    "prisma:generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
     "test": "jest"
   },
   "author": "Wesley Araujo",
@@ -25,6 +27,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "@prisma/client": "^5.11.0",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "prisma": "^5.11.0"
