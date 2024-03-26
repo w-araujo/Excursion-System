@@ -38,7 +38,10 @@ model Address {
    state           String
    zipCode         String
    traveler        Traveler?
+   createdAt       DateTime         @default(now())
+   updatedAt       DateTime         @updatedAt
 }
+
 model Company {
   id              Int         @id @default(autoincrement())
   name            String      
