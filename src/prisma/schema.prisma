@@ -36,6 +36,8 @@ model Address {
    street          String
    city            String
    state           String
+   country         String
+   number          String
    zipCode         String
    traveler        Traveler?
    createdAt       DateTime         @default(now())
