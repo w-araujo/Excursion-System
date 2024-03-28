@@ -68,7 +68,7 @@ class AddressController {
         "Erro ao listar o endereço pelo ID | Rota -> (/address/findById)."
       );
 
-      return res.status(400).json({ error: (error as Error).message });
+      return res.status(404).json({ error: (error as Error).message });
     } finally {
       await disconnectPrisma();
     }

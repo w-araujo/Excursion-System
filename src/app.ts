@@ -1,12 +1,12 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { routes } from "./routes/index";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./swagger";
 
 const app = express();
-app.use(express.json());
-app.use(routes);
 
-app.get("/", (req: Request, res: Response) => {
-  return res.status(200).json({ msg: "Hello World!" });
-});
+app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(routes);
 
 export { app };

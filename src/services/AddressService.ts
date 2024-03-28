@@ -34,6 +34,11 @@ class AddressService implements IAddressMethods {
     const address = await prisma.address.findFirst({
       where: { id: id },
     });
+
+    if (!address) {
+      throw new Error("Address not found!");
+    }
+
     return address;
   }
 
