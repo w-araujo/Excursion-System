@@ -20,5 +20,5 @@ export interface IAddressMethods {
     number: string,
     zipCode: string
   ): Promise<Address>;
-  delete(id: number): Promise<void>;
+  delete(id: number): Promise<Address>;
 }

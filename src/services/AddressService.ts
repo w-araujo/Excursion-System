@@ -72,16 +72,18 @@ class AddressService implements IAddressMethods {
     return addressUpdated;
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: number): Promise<Address> {
     const address = await this.findById(id);
 
     if (!address) {
       throw new Error("Address not found!");
     }
 
-    await prisma.address.delete({
+    const addressDeleted = await prisma.address.delete({
       where: { id: id },
     });
+
+    return addressDeleted;
   }
 }
 
