@@ -1,6 +1,7 @@
 import { ITravelerMethods } from "../@types/Traveler";
 import { Traveler } from "@prisma/client";
 import { prisma } from "../prisma/utils/client";
+import { hashed } from "../utils/password";
 
 class TravelerService implements ITravelerMethods {
   async create(
@@ -27,18 +28,21 @@ class TravelerService implements ITravelerMethods {
     const birthdateWithTime = new Date(birthdate);
     birthdateWithTime.setHours(0, 0, 0, 0);
 
+    const encrypted = await hashed(password);
     const traveler = await prisma.traveler.create({
       data: {
         name,
         email,
         cpf,
-        password,
+        password: encrypted,
         phone,
         birthdate: birthdateWithTime,
         addressId,
         companyId,
       },
     });
+
+    delete traveler.password;
 
     return traveler;
   }
