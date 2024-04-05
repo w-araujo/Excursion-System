@@ -1,7 +1,8 @@
 import { ITravelerMethods } from "../@types/Traveler";
 import { Traveler } from "@prisma/client";
 import { prisma } from "../prisma/utils/client";
-import { hashed } from "../utils/password";
+import { hashed, comparePassword } from "../utils/password";
+import { tokenGenerator } from "../utils/jwt";
 
 class TravelerService implements ITravelerMethods {
   async create(
@@ -45,6 +46,20 @@ class TravelerService implements ITravelerMethods {
     delete traveler.password;
 
     return traveler;
+  }
+
+  async login(email: string, password: string) {
+    const traveler = await this.findByEmail(email);
+
+    const isTrue = await comparePassword(password, traveler.password);
+
+    if (!isTrue) {
+      throw new Error("Incorrect email/password combination");
+    }
+    delete traveler.password;
+
+    const token = tokenGenerator(traveler);
+    return { token, traveler };
   }
 
   async listAll(): Promise<Traveler[]> {

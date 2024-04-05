@@ -38,6 +38,24 @@ class TravelerController {
     }
   }
 
+  async login(req: Request, res: Response) {
+    try {
+      logger.info("Rota -> (/traveler/login) requisitada.");
+
+      await connectPrisma();
+
+      const data: Traveler = req.body;
+      const traveler = await travelerService.login(data.email, data.password);
+      return res.status(200).json(traveler);
+    } catch (error) {
+      logger.error("Erro ao logar no sistema | Rota -> (/traveler/login).");
+
+      return res.status(401).json({ error: (error as Error).message });
+    } finally {
+      await disconnectPrisma();
+    }
+  }
+
   async listAll(req: Request, res: Response) {
     try {
       logger.info("Rota -> (/traveler/listAll) requisitada.");

@@ -97,6 +97,78 @@ travelerRouter.post(
 
 /**
  * @swagger
+ * /traveler/login:
+ *   post:
+ *     tags: [Traveler]
+ *     summary: Faz login do viajante no sistema
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "fulano@mail.com"
+ *               password:
+ *                 type: string
+ *                 example: "12345"
+ *     responses:
+ *       200:
+ *         description: Retorna o token e os dados do viajante
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                token:
+ *                 type: string
+ *                 example: "00000000000000000000000000000000"
+ *                name:
+ *                 type: string
+ *                 example: "Fulano"
+ *                email:
+ *                 type: string
+ *                 example: "fulano@mail.com"
+ *                cpf:
+ *                 type: string
+ *                 example: "00000000000"
+ *                password:
+ *                 type: string
+ *                 example: "12345"
+ *                phone:
+ *                 type: string
+ *                 example: "00000000000"
+ *                birthdate:
+ *                 type: string
+ *                 format: date
+ *                 example: "00000000"
+ *                companyId:
+ *                 type: number
+ *                 example: null
+ *                addressId:
+ *                 type: number
+ *                 example: null
+ *       401:
+ *         description: Caso de falha no token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example:  "Incorrect email/password combination"
+ */
+travelerRouter.post(
+  "/login",
+  travelerValidation.login,
+  travelerController.login
+);
+
+/**
+ * @swagger
  * /traveler/listAll:
  *   get:
  *     tags: [Traveler]

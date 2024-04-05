@@ -28,6 +28,23 @@ class TravelerValidation {
     return next();
   }
 
+  async login(req: Request, res: Response, next: NextFunction) {
+    const schema = yup.object().shape({
+      email: yup.string().email().required(),
+      password: yup.string().min(5).required(),
+    });
+
+    try {
+      await schema.validate(req.body, { abortEarly: false });
+    } catch (error) {
+      logger.error("Erro ao logar no sistema | Validação -> (traveler).");
+
+      return res.status(401).json({ error: (error as Error).message });
+    }
+
+    return next();
+  }
+
   async update(req: Request, res: Response, next: NextFunction) {
     const schema = yup.object().shape({
       name: yup.string().notRequired(),
