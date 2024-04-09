@@ -42,7 +42,7 @@ describe("AddressService", () => {
       name: "Fulano",
       email: "fulano@mail.com",
       cpf: "00000000001",
-      password: "12345",
+      password: "#uy&2gfrd213ighjmbN@*1bnmnb",
       phone: "00000000000",
       birthdate: "2000-01-01",
       role: "TRAVELER",
