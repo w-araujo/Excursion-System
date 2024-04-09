@@ -23,8 +23,8 @@ model Traveler {
   phone           String
   birthdate       DateTime
   role            Role             @default(TRAVELER)
-  address         Address          @relation(fields: [addressId], references: [id])
-  addressId       Int              @unique              
+  address         Address?          @relation(fields: [addressId], references: [id])
+  addressId       Int?              @unique              
   company         Company?         @relation(fields: [companyId], references: [id])
   companyId       Int?             @unique
   travelHistory   TravelHistory[]

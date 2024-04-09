@@ -32,6 +32,11 @@ services:
       - backend
     env_file:
       - .env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
 
 networks:
   backend:
