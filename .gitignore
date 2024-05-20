@@ -3,3 +3,9 @@ node_modules
 dist
 combined.log
 error.log
+uploads/company/*.png
+uploads/company/*.jpg
+uploads/event/*.png
+uploads/event/*.jpg
+uploads/other/*.png
+uploads/other/*.jpg

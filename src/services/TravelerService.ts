@@ -104,6 +104,24 @@ class TravelerService implements ITravelerMethods {
     return traveler;
   }
 
+  async transformToBusiness(id: number, companyId: number): Promise<Traveler> {
+    const traveler = await this.findById(id);
+
+    if (!traveler) {
+      throw new Error("Traveler not found!");
+    }
+
+    const travelerUpdated = await prisma.traveler.update({
+      where: { id },
+      data: {
+        companyId,
+        role: "BUSSINESS",
+      },
+    });
+
+    return travelerUpdated;
+  }
+
   async update(
     id: number,
     name?: string,
