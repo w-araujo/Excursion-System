@@ -16,8 +16,8 @@ services:
     depends_on:
       - db
     volumes:
-      - /home/wesley/Excursion-System/src/logs:/usr/src/app/src/logs
-      - /home/wesley/Excursion-System/uploads:/usr/src/app/uploads
+      - ./src/logs:/usr/src/app/src/logs
+      - ./uploads:/usr/src/app/uploads
 
   db:
     container_name: es_db

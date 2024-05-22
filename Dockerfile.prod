@@ -10,6 +10,8 @@ COPY . .
 
 RUN npm run build
 
+COPY entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
+
 EXPOSE 3333
 
-CMD ["npm", "start"]
+ENTRYPOINT ["./entrypoint-prod.sh"]
